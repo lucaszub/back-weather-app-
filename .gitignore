@@ -5,7 +5,9 @@
 .env
 
 # Ignorer les fichiers avec "_runner" dans le nom
-*_runner
+*_runner*
 
 # Ignorer le dossier env
 /env/
+# Ignorer les fichiers avec "_runner" dans le nom
+*_runner*
