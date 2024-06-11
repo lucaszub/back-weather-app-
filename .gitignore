@@ -1,0 +1,11 @@
+# Ignorer les fichiers CSV
+*.csv
+
+# Ignorer le fichier .env
+.env
+
+# Ignorer les fichiers avec "_runner" dans le nom
+*_runner
+
+# Ignorer le dossier env
+/env/
