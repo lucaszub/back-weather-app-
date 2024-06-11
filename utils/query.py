@@ -1,4 +1,4 @@
-from database_singleton import DatabaseSingleton
+from utils.database_singleton import DatabaseSingleton
 from model.temperature import Temperature 
 from sqlalchemy import distinct
 

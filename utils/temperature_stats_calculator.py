@@ -1,6 +1,6 @@
 from datetime import datetime
 from utils.date_difference_calculator import DateDifferenceCalculator 
-from database_singleton import DatabaseSingleton
+from utils.database_singleton import DatabaseSingleton
 from sqlalchemy import func
 from model.temperature import Temperature
 import calendar

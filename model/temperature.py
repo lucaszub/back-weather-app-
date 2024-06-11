@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, Float, String, BigInteger, MetaData, Table
 from sqlalchemy.orm import declarative_base, sessionmaker
-from database_singleton import DatabaseSingleton
+from utils.database_singleton import DatabaseSingleton
 from sqlalchemy.exc import SQLAlchemyError
 
 Base = declarative_base()
