@@ -56,8 +56,8 @@ from sqlalchemy.exc import SQLAlchemyError
 
 
 if __name__ == "__main__":
-    db = DatabaseSingleton()
-    session = db.session
+    session = DatabaseSingleton().session
+   
 
     try:
         result = session.execute(text('SELECT * FROM temperature LIMIT 10;'))

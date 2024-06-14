@@ -7,13 +7,15 @@ from api.temperature_stat import router as temperature_stats_router  # Importez 
 from fastapi.middleware.cors import CORSMiddleware
 # Créer toutes les tables
 
-origins = [
-    "http://localhost:3000",  # Si votre front-end est servi sur localhost:3000
-      # Si votre front-end est servi sur localhost:8000
-]
 app = FastAPI(
-    title = f"Application météo API"
+    title="Application météo API"
 )
+
+# Liste des origines autorisées pour CORS
+origins = [
+    "http://localhost:3000",   # Exemple pour localhost:3000
+    "http://13.36.174.69:3000", # Ajoutez l'origine de votre frontend ici
+]
 
 # Configuration du middleware CORS
 app.add_middleware(
@@ -30,5 +32,7 @@ app.include_router(stations_router, prefix="/stations", tags=["stations"])  # In
 app.include_router(year_router, prefix="/year", tags=["Year"])  # Incluez le routeur dans votre application
 app.include_router(temperature_stats_router, prefix="/temperature_stats", tags=["temperature_stats"])  # Incluez le routeur dans votre application
 @app.get("/")
+
+
 def read_root():
     return {"message": "Welcome to the Weather API"}
