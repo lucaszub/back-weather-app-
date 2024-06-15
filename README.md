@@ -1,56 +1,51 @@
 # backend-weather-app
 
+## Déployer son application
 
-# Deployer son application 
+### Build son image
 
-- build son image
-'''
+```bash
 docker build -t lucaszub/fastapiimage:v6 .
-
-'''
-'''
 docker run -d -p 8000:8000 lucaszub/fastapiimage:v6 # pour tester en local
-'''
-- Push sur docker hub 
-'''
+```
+
+### Push sur Docker Hub
+
+```bash
 docker tag lucaszub/fastapiimage:v6 lucaszub/fastapiimage:v6
-'''
-'''
 docker push lucaszub/fastapiimage:v6
-'''
+```
 
-## # pour se connecte en ssh sous windows 
-'''
+### Pour se connecter en SSH sous Windows
+
+```powershell
 icacls "cle-weather-app-project.pem" /inheritance:r /grant:r "$($env:USERNAME):(R)"
-'''
-
-'''
 ssh -i "cle-weather-app-project.pem" ubuntu@ec2-52-47-201-9.eu-west-3.compute.amazonaws.com
-'''
+```
 
-# installer docker 
-https://docs.docker.com/engine/install/ubuntu/
-'''
+### Installer Docker
+
+Suivez les instructions sur [la documentation officielle de Docker](https://docs.docker.com/engine/install/ubuntu/).
+
+### Se connecter à Docker
+
+```bash
 docker login
-'''
+```
 
-'''
+### Puller l'image Docker et tester en local
+
+```bash
 sudo docker pull lucaszub/fastapiimage:v6
-
-'''
 docker run -d -p 8000:8000 lucaszub/fastapiimage:v6 # pour tester en local
-'''
+```
 
-Pour aller voir son application deployer
+## Pour aller voir son application déployée
 
-- ouvrir les sécurité pour aller voir 8000
-- Récupéré son ip publique et rajouter le port à la fin
+Ouvrir les règles de sécurité pour accéder au port 8000.
 
-'''
-http://<adress_ip_publique>:8000
-'''
+Récupérer son IP publique et ajouter le port à la fin de l'adresse :
 
-
-
-
-
+```plaintext
+http://<adresse_ip_publique>:8000
+```
