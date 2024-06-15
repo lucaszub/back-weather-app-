@@ -1,4 +1,4 @@
-from utils.database_config import database_config
+from db.database_config import database_config
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from urllib import parse

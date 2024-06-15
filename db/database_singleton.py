@@ -1,4 +1,4 @@
-from utils.database_connector import database_connector
+from db.database_connector import database_connector
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 

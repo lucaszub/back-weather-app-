@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from utils.query import Query
-from utils.database_singleton import DatabaseSingleton
+from db.database_singleton import DatabaseSingleton
 
 router = APIRouter()
 
