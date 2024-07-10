@@ -102,8 +102,9 @@ create_database(conn_info)
 # Création de l'engine SQLAlchemy
 engine = create_engine(f"mysql+mysqlconnector://{conn_info['user']}:{conn_info['password']}@{conn_info['host']}:{conn_info['port']}/{conn_info['database']}")
 
+csv_file_path = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/exports/csv?lang=fr&timezone=Europe%2FBerlin&use_labels=true&delimiter=%3B"
 # Traiter les données pour les températures moyennes, minimales et maximales
-csv_file_path = "C:\\wild code school\\weather_app\\backend weather app\\donnees-synop-essentielles-omm (4).csv"
+# csv_file_path = "C:\\wild code school\\weather_app\\backend weather app\\donnees-synop-essentielles-omm (5).csv"
 colonnes = [
     'ID OMM station',
     'Date',
@@ -119,7 +120,12 @@ colonnes = [
 ]
 df_processed = process_data(csv_file_path, colonnes)
 
+# Sauvegarder les données traitées dans un fichier CSV
+output_csv_path = "C:\\wild code school\\weather_app\\backend weather app\\processed_weather_data.csv"
+df_processed.to_csv(output_csv_path, index=False)
+
 # Charger les données de température moyenne dans la base de données MySQL
 df_processed.to_sql('temperature', con=engine, if_exists='replace', index=False, chunksize=10000)
 
 print("Chargement des données dans la base de données MySQL terminé avec succès.")
+print(f"Fichier CSV généré : {output_csv_path}")
