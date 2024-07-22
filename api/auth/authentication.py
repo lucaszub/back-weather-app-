@@ -1,7 +1,6 @@
 from fastapi import FastAPI, Depends, HTTPException, status, APIRouter
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
-from jwt import InvalidTokenError
 from passlib.context import CryptContext
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
@@ -10,14 +9,15 @@ from datetime import datetime, timedelta, timezone
 from db.database_singleton import DatabaseSingleton
 from model.user import User as UserModel
 
-# Constants
+# Constants for JWT
 SECRET_KEY = "c3b83dfc17c8e621800695c9c2c5cd68"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = 300
 
-# Router initialization
+# Initialize FastAPI router
 router = APIRouter()
 
+# Pydantic models for data validation and serialization
 class Token(BaseModel):
     access_token: str
     token_type: str
@@ -43,7 +43,7 @@ class UserCreate(BaseModel):
 # Password hashing context
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# OAuth2 scheme
+# OAuth2 scheme for authentication
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
 
 # Dependency to get the database session
@@ -54,6 +54,7 @@ def get_db():
     finally:
         db.close()
 
+# Utility functions for password management and user authentication
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
@@ -71,6 +72,7 @@ def authenticate_user(db: Session, username: str, password: str):
         return False
     return user
 
+# Utility function to create a JWT access token
 def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None):
     to_encode = data.copy()
     if expires_delta:
@@ -81,6 +83,7 @@ def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
+# Dependency to get the current authenticated user
 async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Session = Depends(get_db)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -100,6 +103,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Se
         raise credentials_exception
     return user
 
+# Dependency to get the current active user
 async def get_current_active_user(
     current_user: Annotated[User, Depends(get_current_user)],
 ):
@@ -107,6 +111,7 @@ async def get_current_active_user(
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
 
+# Route to obtain an access token
 @router.post("/token", response_model=Token)
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Session = Depends(get_db)
@@ -124,18 +129,21 @@ async def login_for_access_token(
     )
     return Token(access_token=access_token, token_type="bearer")
 
+# Route to get the current authenticated user's information
 @router.get("/users/me/", response_model=User)
 async def read_users_me(
     current_user: Annotated[User, Depends(get_current_active_user)],
 ):
     return current_user
 
+# Route to get items owned by the current authenticated user
 @router.get("/users/me/items/")
 async def read_own_items(
     current_user: Annotated[User, Depends(get_current_active_user)],
 ):
     return [{"item_id": "Foo", "owner": current_user.username}]
 
+# Route to register a new user
 @router.post("/register", response_model=User)
 async def register_user(user: UserCreate, db: Session = Depends(get_db)):
     # Check if the user already exists
@@ -169,5 +177,3 @@ async def register_user(user: UserCreate, db: Session = Depends(get_db)):
         full_name=user_model.full_name,
         disabled=user_model.disabled
     )
-
-

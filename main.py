@@ -6,6 +6,9 @@ from api.year import router as year_router  # Importez le routeur depuis le modu
 from api.temperature_stat import router as temperature_stats_router  # Importez le routeur depuis le module temperature_stats
 from fastapi.middleware.cors import CORSMiddleware
 from api.auth.authentication import router as auth_router
+from api.current_time import router as current_time_router
+from api.time_forecast import router as time_forecast_router
+
 # Créer toutes les tables
 
 app = FastAPI(
@@ -14,8 +17,10 @@ app = FastAPI(
 
 # Liste des origines autorisées pour CORS
 origins = [
-    "http://localhost:3000",   # Exemple pour localhost:3000
+    "http://localhost:3000",
+    "http://localhost:5173",   # Exemple pour localhost:3000
     "http://13.36.174.69:3000", # Ajoutez l'origine de votre frontend ici
+    ""
 ]
 
 # Configuration du middleware CORS
@@ -33,6 +38,10 @@ app.include_router(stations_router, prefix="/stations", tags=["stations"])  # In
 app.include_router(year_router, prefix="/year", tags=["Year"])  # Incluez le routeur dans votre application
 app.include_router(temperature_stats_router, prefix="/temperature_stats", tags=["temperature_stats"])  # Incluez le routeur dans votre application
 app.include_router(auth_router, prefix="/auth", tags=["auth"])  # Incluez le routeur dans votre application
+app.include_router(current_time_router, prefix="/current_time", tags=["current_time"])  # Incluez le routeur dans votre application
+app.include_router(time_forecast_router, prefix="/prediction", tags=["prediction"])  # Incluez le routeur dans votre application
+
+
 @app.get("/")
 
 

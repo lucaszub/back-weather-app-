@@ -15,6 +15,7 @@ class Temperature(Base):
     temperature_moyenne = Column('Temperature Moyenne', Float)
     temperature_maximale = Column('Temperature Maximale', Float)
     temperature_minimale = Column('Temperature Minimale', Float)
+    precipitations = Column('Precipitations', Float)
     latitude = Column('Latitude', Float)
     longitude = Column('Longitude', Float)
     department_name = Column('department (name)', String)
@@ -27,10 +28,15 @@ if __name__ == "__main__":
     db = DatabaseSingleton().session
 
     try:
-        result = db.query(Temperature.year, 
-                          Temperature.temperature_moyenne, 
-                          Temperature.temperature_maximale, 
-                          Temperature.temperature_minimale).limit(10).all()
+        # result = db.query(Temperature.year, 
+        #                   Temperature.temperature_moyenne, 
+        #                   Temperature.temperature_maximale, 
+        #                   Temperature.precipitations,
+        #                   Temperature.temperature_minimale).limit(10).all()
+        
+        result = db.query(Temperature.precipitations).limit(10).all()
+
+
         for row in result:
             print(row)
     except SQLAlchemyError as e:

@@ -14,6 +14,6 @@ DB_HOST= "mydb.cv042okomolf.eu-west-3.rds.amazonaws.com"      # for db in RDS in
 DB_PORT= 3306
 DB_NAME= "mydb"
 
-
+API_KEY = "673f5bbe15b1a94a502550359930545f"
 
 

@@ -37,7 +37,8 @@ class TemperatureStatsCalculator:
             Temperature.day,
             func.round(func.avg(Temperature.temperature_moyenne), 1).label('temperature_moyenne'),
             func.min(Temperature.temperature_minimale).label('temperature_minimum'),
-            func.max(Temperature.temperature_maximale).label('temperature_maximum')
+            func.max(Temperature.temperature_maximale).label('temperature_maximum'),
+            func.sum(Temperature.precipitations).label('precipitations')
         ).filter(
             (Temperature.year >= self.start_date.year) &
             (Temperature.year <= self.end_date.year) &
@@ -58,7 +59,8 @@ class TemperatureStatsCalculator:
             Temperature.month,
             func.round(func.avg(Temperature.temperature_moyenne), 1).label('temperature_moyenne'),
             func.round(func.min(Temperature.temperature_minimale), 1).label('temperature_minimum'),
-            func.round(func.max(Temperature.temperature_maximale), 1).label('temperature_maximum')
+            func.round(func.max(Temperature.temperature_maximale), 1).label('temperature_maximum'),
+            func.round(func.sum(Temperature.precipitations), 1).label('precipitations')
         ).filter(
             (Temperature.year >= self.start_date.year) &
             (Temperature.year <= self.end_date.year) &
@@ -91,6 +93,7 @@ class TemperatureStatsCalculator:
             ((Temperature.month - 1) // 3 + 1).label('quarter'),
             func.round(func.avg(Temperature.temperature_moyenne), 1).label('temperature_moyenne'),
             func.round(func.min(Temperature.temperature_minimale), 1).label('temperature_minimum'),
+            func.round(func.max(Temperature.temperature_maximale), 1).label('temperature_maximum'),
             func.round(func.max(Temperature.temperature_maximale), 1).label('temperature_maximum')
         ).filter(
             (Temperature.year >= self.start_date.year) &
@@ -120,6 +123,7 @@ class TemperatureStatsCalculator:
             Temperature.year,
             func.round(func.avg(Temperature.temperature_moyenne), 1).label('temperature_moyenne'),
             func.round(func.min(Temperature.temperature_minimale), 1).label('temperature_minimum'),
+            func.round(func.sum(Temperature.precipitations), 1).label('precipitations'),
             func.round(func.max(Temperature.temperature_maximale), 1).label('temperature_maximum')
         ).filter(
             (Temperature.year >= self.start_date.year) &
@@ -133,7 +137,7 @@ class TemperatureStatsCalculator:
 
 
 if __name__ == "__main__":
-    start_date_str = '2022-01-01'
+    start_date_str = '2010-01-01'
     end_date_str = '2023-12-31'
     
     calculator = DateDifferenceCalculator(start_date_str, end_date_str)

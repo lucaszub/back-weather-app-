@@ -13,13 +13,13 @@ Assurez-vous d'avoir les éléments suivants installés sur votre machine :
 Construisez l'image Docker de votre application FastAPI avec la commande suivante :
 
 ```bash
-docker build -t lucaszub/fastapiimage:v6 .
+docker build -t lucaszub/fastapiimage:v7 .
 ```
 
 Pour tester l'image en local, exécutez :
 
 ```bash
-docker run -d -p 8000:8000 lucaszub/fastapiimage:v6
+docker run -d -p 8000:8000 lucaszub/fastapiimage:v7
 ```
 
 ### Étape 2 : Push de l'image sur Docker Hub
@@ -27,13 +27,13 @@ docker run -d -p 8000:8000 lucaszub/fastapiimage:v6
 Taguez l'image pour Docker Hub :
 
 ```bash
-docker tag lucaszub/fastapiimage:v6 lucaszub/fastapiimage:v6
+docker tag lucaszub/fastapiimage:v6 lucaszub/fastapiimage:v7
 ```
 
 Puis, poussez l'image sur Docker Hub :
 
 ```bash
-docker push lucaszub/fastapiimage:v6
+docker push lucaszub/fastapiimage:v7
 ```
 
 ### Étape 3 : Connexion SSH sous Windows
@@ -62,13 +62,13 @@ docker login
 Puller l'image Docker depuis Docker Hub :
 
 ```bash
-sudo docker pull lucaszub/fastapiimage:v6
+sudo docker pull lucaszub/fastapiimage:v7
 ```
 
 Lancez l'image pour tester en local :
 
 ```bash
-docker run -d -p 8000:8000 lucaszub/fastapiimage:v6
+docker run -d -p 8000:8000 lucaszub/fastapiimage:v7
 ```
 
 ### Étape 7 : Accéder à l'application déployée
@@ -80,6 +80,9 @@ Récupérez l'adresse IP publique de votre serveur et ajoutez le port à la fin 
 ```plaintext
 http://<adresse_ip_publique>:8000
 ```
+http://35.181.52.96:8000
+172.31.11.89
+http://172.31.11.89:8000
 
 ### Conclusion
 
