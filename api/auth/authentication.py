@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException, status, APIRouter
+from fastapi import FastAPI, Depends, HTTPException, status, APIRouter, Response
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from passlib.context import CryptContext
@@ -12,7 +12,7 @@ from model.user import User as UserModel
 # Constants for JWT
 SECRET_KEY = "c3b83dfc17c8e621800695c9c2c5cd68"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 300
+ACCESS_TOKEN_EXPIRE_MINUTES = 1
 
 # Initialize FastAPI router
 router = APIRouter()
@@ -112,9 +112,9 @@ async def get_current_active_user(
     return current_user
 
 # Route to obtain an access token
-@router.post("/token", response_model=Token)
+@router.post("/token")
 async def login_for_access_token(
-    form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Session = Depends(get_db)
+    response: Response, form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Session = Depends(get_db)
 ):
     user = authenticate_user(db, form_data.username, form_data.password)
     if not user:
@@ -127,7 +127,8 @@ async def login_for_access_token(
     access_token = create_access_token(
         data={"sub": user.username}, expires_delta=access_token_expires
     )
-    return Token(access_token=access_token, token_type="bearer")
+    response.set_cookie(key="access_token", value=f"Bearer {access_token}", httponly=True)
+    return {"message": "Login successful"}
 
 # Route to get the current authenticated user's information
 @router.get("/users/me/", response_model=User)

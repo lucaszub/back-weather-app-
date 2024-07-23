@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from api.auth.authentication import router as auth_router
 from api.current_time import router as current_time_router
 from api.time_forecast import router as time_forecast_router
+from api.airpollution import router as airpollution_router
 
 # Créer toutes les tables
 
@@ -40,6 +41,7 @@ app.include_router(temperature_stats_router, prefix="/temperature_stats", tags=[
 app.include_router(auth_router, prefix="/auth", tags=["auth"])  # Incluez le routeur dans votre application
 app.include_router(current_time_router, prefix="/current_time", tags=["current_time"])  # Incluez le routeur dans votre application
 app.include_router(time_forecast_router, prefix="/prediction", tags=["prediction"])  # Incluez le routeur dans votre application
+app.include_router(airpollution_router, prefix="/airpollution", tags=["pollution"])  # Incluez le routeur dans votre application
 
 
 @app.get("/")
